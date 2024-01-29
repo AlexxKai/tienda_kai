@@ -8,6 +8,56 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Mostrar productos, carrito de compras, etc. -->
+    <nav>
+        <div class="container">
+            <a href="index.php">Inicio</a>
+            <a href="contacto.php">Contacto</a>
+            <a href="registro_login.php">Registro/Login</a>
+            <a href="#">Catálogo</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Catálogo de Productos</h1>
+
+        <div class="product-list">
+            <!-- Mostrar productos desde la base de datos -->
+            <?php
+            $sql = "SELECT * FROM productos";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo '<div class="product">';
+                    echo '<h2>' . $row['nombre'] . '</h2>';
+                    echo '<p>Fabricante: ' . $row['fabricante'] . '</p>';
+                    echo '<p>Cantidad: ' . $row['cantidad'] . '</p>';
+                    echo '<button onclick="addToCart(' . $row['ID_producto'] . ')">Añadir al Carrito</button>';
+                    echo '</div>';
+                }
+            } else {
+                echo '<p>No hay productos disponibles.</p>';
+            }
+            ?>
+        </div>
+
+        <div id="cart">
+            <!-- Contenido del carrito de compras -->
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Tienda de Piercing. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function addToCart(productID) {
+            // Implementa la lógica para añadir productos al carrito de compras
+            // Puedes usar AJAX para enviar la información al servidor
+            alert('Producto añadido al carrito.');
+        }
+    </script>
 </body>
 </html>

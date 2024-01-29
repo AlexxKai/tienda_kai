@@ -8,6 +8,47 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Formulario de contacto -->
+    <nav>
+        <div class="container">
+            <a href="index.php">Inicio</a>
+            <a href="#">Contacto</a>
+            <a href="registro_login.php">Registro/Login</a>
+            <a href="catalogo.php">Catálogo</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Contacto</h1>
+
+        <section>
+            <h2>Formulario de Contacto</h2>
+            <!-- Implementa aquí tu formulario de contacto -->
+            <form action="procesar_contacto.php" method="post">
+                <label for="nombre">Nombre:</label>
+                <input type="text" name="nombre" required>
+
+                <label for="email">Email:</label>
+                <input type="email" name="email" required>
+
+                <label for="mensaje">Mensaje:</label>
+                <textarea name="mensaje" required></textarea>
+
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Información de Contacto</h2>
+            <p>Dirección: Calle de la Tienda, Ciudad</p>
+            <p>Teléfono: 123-456-789</p>
+            <p>Email: info@tiendapiercing.com</p>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Tienda de Piercing. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 </body>
 </html>

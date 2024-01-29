@@ -1,2 +1,13 @@
 - Implementar medidas de seguridad como hash de contraseñas
 - Prevencion de inyecciones SQL
+
+***************************
+
+En este código, primero se valida cada campo del formulario ($nombre, $email, y $mensaje) utilizando la función test_input para evitar ataques de inyección y otros problemas de seguridad. Luego, se realizan verificaciones adicionales, como asegurarse de que el nombre solo contiene letras y espacios y de que el email tiene un formato válido.
+
+Finalmente, se insertan los datos validados en la base de datos. Asegúrate de crear una tabla mensajes_contacto en tu base de datos para almacenar esta información.
+
+Recuerda ajustar este código según tus necesidades específicas y considera agregar más validaciones y medidas de seguridad según sea necesario.
+
+***************************
+
