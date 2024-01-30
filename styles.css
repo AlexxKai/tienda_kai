@@ -19,7 +19,7 @@ body {
 
 /* Estilos para la barra de navegación */
 nav {
-    background-color: #333;
+    background: linear-gradient(to right, #333, #555); /* Degradado de color de izquierda a derecha */
     color: #fff;
     padding: 10px 0;
 }
@@ -28,7 +28,13 @@ nav a {
     color: #fff;
     text-decoration: none;
     margin: 0 15px;
+    transition: color 0.3s; /* Transición suave del color al pasar el ratón */
 }
+
+nav a:hover {
+    color: #ffcc00; /* Color de texto al pasar el ratón */
+}
+
 
 /* Estilos para los títulos de sección */
 h1, h2, h3 {

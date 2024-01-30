@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Tienda de Piercing</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
     <nav>
@@ -19,7 +19,7 @@
 
     <div class="container">
         <section class="welcome-section">
-            <h1>Bienvenido a nuestra Tienda de Piercing</h1>
+            <h1>Bienvenido a nuestra Tienda  Piercing</h1>
             <p>Descubre las últimas novedades y ofertas en piercings de alta calidad.</p>
         </section>
 
