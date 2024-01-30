@@ -10,6 +10,7 @@ session_start();
     <meta charset="UTF-8">
     <title>Tienda de Piercing</title>
     <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./styles.css">
 </head>
 
 <body>

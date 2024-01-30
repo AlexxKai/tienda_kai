@@ -70,6 +70,78 @@ function test_input($data) {
     return $data;
 }
 ?>
+<?php
+include 'db.php';
+
+// Iniciar sesión
+session_start();
+
+// Verificar si el usuario ya ha iniciado sesión
+if (isset($_SESSION['ID_usuario'])) {
+    header("Location: index.php");
+    exit();
+}
+
+// Procesar el formulario de registro
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
+    $nombre = test_input($_POST["nombre"]);
+    $telefono = test_input($_POST["telefono"]);
+    $email = test_input($_POST["email"]);
+    $contrasena = password_hash($_POST["contrasena"], PASSWORD_DEFAULT);
+
+    // Verificar si el email ya está registrado
+    $sql = "SELECT * FROM usuarios WHERE email='$email'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        echo "El email ya está registrado. Por favor, inicia sesión o utiliza otro email.";
+    } else {
+        // Insertar nuevo usuario en la base de datos
+        $sql = "INSERT INTO usuarios (nombre_apellidos, telefono, email, contrasena) VALUES ('$nombre', '$telefono', '$email', '$contrasena')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo "Registro exitoso. Por favor, inicia sesión.";
+        } else {
+            echo "Error en el registro: " . $conn->error;
+        }
+    }
+}
+
+// Procesar el formulario de login
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
+    $email = test_input($_POST["email"]);
+    $contrasena = $_POST["contrasena"];
+
+    // Obtener el hash de la contraseña almacenado en la base de datos
+    $sql = "SELECT ID_usuario, contrasena FROM usuarios WHERE email='$email'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $hashed_password = $row['contrasena'];
+
+        // Verificar la contraseña
+        if (password_verify($contrasena, $hashed_password)) {
+            // Iniciar sesión y redirigir al usuario a la página de inicio
+            $_SESSION['ID_usuario'] = $row['ID_usuario'];
+            header("Location: index.php");
+            exit();
+        } else {
+            echo "Contraseña incorrecta. Inténtalo de nuevo.";
+        }
+    } else {
+        echo "No se encontró ninguna cuenta asociada a ese email. Regístrate primero.";
+    }
+}
+
+// Función para limpiar y validar datos del formulario
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+?>
 
 <!DOCTYPE html>
 <html lang="es">
