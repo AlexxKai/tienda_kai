@@ -121,7 +121,6 @@ function mostrarAlerta($titulo, $mensaje)
 {
     echo "<script>alert('$titulo: $mensaje');</script>";
 }
-
 ?>
 
 <!DOCTYPE html>
