@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     $contrasena = $_POST["contrasena"];
 
     // Obtener el hash de la contraseña almacenado en la base de datos
-    $sql = "SELECT ID_usuario, contrasena FROM usuarios WHERE email='$email'";
+    $sql = "SELECT ID_usuario, contjsrasena FROM usuarios WHERE email='$email'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -102,8 +102,6 @@ function test_input($data)
     </nav>
 
     <div class="container">
-        <h1>Registro/Login</h1>
-
         <!-- Formulario de Login -->
         <section>
             <div class="login-register-container">
