@@ -4,12 +4,6 @@ include 'db.php';
 // Iniciar sesión
 session_start();
 
-// Verificar si el usuario ya ha iniciado sesión
-if (isset($_SESSION['ID_usuario'])) {
-    header("Location: index.php");
-    exit();
-}
-
 // Procesar el formulario de registro
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
     $nombre = test_input($_POST["nombre"]);
@@ -41,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     $contrasena = $_POST["contrasena"];
 
     // Obtener el hash de la contraseña almacenado en la base de datos
-    $sql = "SELECT ID_usuario, contjsrasena FROM usuarios WHERE email='$email'";
+    $sql = "SELECT ID_usuario, contrasena FROM usuarios WHERE email='$email'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {

@@ -4,11 +4,7 @@ include 'db.php';
 // Iniciar sesión
 session_start();
 
-// Verificar si el usuario ya ha iniciado sesión
-if (isset($_SESSION['ID_usuario'])) {
-    header("Location: index.php");
-    exit();
-}
+
 
 // Procesar el formulario de registro
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
@@ -18,14 +14,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
     $contrasena = password_hash($_POST["contrasena"], PASSWORD_DEFAULT);
 
     // Verificar si el email ya está registrado
-    $sql = "SELECT * FROM usuarios WHERE email='$email'";
+    $sql = "SELECT * FROM administrador WHERE email='$email'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
         echo "El email ya está registrado. Por favor, inicia sesión o utiliza otro email.";
     } else {
         // Insertar nuevo usuario en la base de datos
-        $sql = "INSERT INTO usuarios (nombre_apellidos, telefono, email, contrasena) VALUES ('$nombre', '$telefono', '$email', '$contrasena')";
+        $sql = "INSERT INTO administrador (nombre_apellidos, telefono, email, contrasena) VALUES ('$nombre', '$telefono', '$email', '$contrasena')";
 
         if ($conn->query($sql) === TRUE) {
             echo "Registro exitoso. Por favor, inicia sesión.";
@@ -41,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     $contrasena = $_POST["contrasena"];
 
     // Obtener el hash de la contraseña almacenado en la base de datos
-    $sql = "SELECT ID_usuario, contjsrasena FROM usuarios WHERE email='$email'";
+    $sql = "SELECT ID_administrador, contrasena FROM administrador WHERE email='$email'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -50,9 +46,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
 
         // Verificar la contraseña
         if (password_verify($contrasena, $hashed_password)) {
-            // Iniciar sesión y redirigir al usuario a la página de inicio
-            $_SESSION['ID_usuario'] = $row['ID_usuario'];
-            header("Location: index.php");
+            // Iniciar sesión y redirigir al administrador a su panel
+            $_SESSION['ID_administrador'] = $row['ID_administrador'];
+            header("Location: admin_panel.php");
             exit();
         } else {
             echo "Contraseña incorrecta. Inténtalo de nuevo.";
@@ -82,16 +78,18 @@ function test_input($data)
 </head>
 
 <body>
-    <nav>
+<nav>
         <div class="container">
             <a href="index.php">Inicio</a>
             <a href="contacto.php">Contacto</a>
 
             <?php
-            if (isset($_SESSION['ID_usuario'])) {
+            if (isset($_SESSION['ID_administrador'])) {
                 // Mostrar opciones adicionales si el usuario está autenticado
                 echo '<a href="logout.php">Logout</a>';
-                echo '<a href="perfil.php">Perfil</a>';  // Puedes enlazar a una página de perfil aquí
+                echo '<a href="perfil.php">Perfil</a>';
+                echo '<a href="admin_panel.php">Panel de Administración</a>';
+
             } else {
                 echo '<a href="registro_login.php">Registro/Login</a>';
             }
@@ -146,7 +144,7 @@ function test_input($data)
     <section>
         <br>
         <button>
-        <a style="text-decoration: none; color: #fff" href="registro_login.php">Vuelve a tu sitio, muggle</a>
+        <a style="text-decoration: none; color: #fff;" href="registro_login.php">Vuelve a tu sitio, muggle</a>
         </button>
     </section>
     </div>

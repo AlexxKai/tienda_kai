@@ -30,7 +30,7 @@ CREATE TABLE usuarios (
 );
 
 -- Crear la tabla de administradores
-CREATE TABLE administradores (
+CREATE TABLE administrador (
     ID_administrador INT PRIMARY KEY AUTO_INCREMENT,
     nombre_apellidos VARCHAR(100) NOT NULL,
     telefono VARCHAR(15),
