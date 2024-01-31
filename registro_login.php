@@ -104,44 +104,53 @@ function test_input($data)
     <div class="container">
         <h1>Registro/Login</h1>
 
-        <!-- Formulario de Registro -->
-        <section>
-            <h2>Registro</h2>
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <label for="nombre">Nombre:</label>
-                <input type="text" name="nombre" required>
-
-                <label for="telefono">Teléfono:</label>
-                <input type="tel" name="telefono">
-
-                <label for="email_reg">Email:</label>
-                <input type="email" name="email" id="email_reg" required>
-
-                <label for="contrasena_reg">Contraseña:</label>
-                <input type="password" name="contrasena" id="contrasena_reg" required>
-
-                <button type="submit" name="register">Registrarse</button>
-            </form>
-        </section>
-
         <!-- Formulario de Login -->
         <section>
-            <h2>Login</h2>
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <label for="email_login">Email:</label>
-                <input type="email" name="email" id="email_login" required>
+            <div class="login-register-container">
+                <div id="login-form">
+                    <h2>Login</h2>
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                        <label for="email_login">Email:</label>
+                        <input type="email" name="email" id="email_login" required>
 
-                <label for="contrasena_login">Contraseña:</label>
-                <input type="password" name="contrasena" id="contrasena_login" required>
+                        <label for="contrasena_login">Contraseña:</label>
+                        <input type="password" name="contrasena" id="contrasena_login" required>
 
-                <button type="submit" name="login">Iniciar Sesión</button>
-            </form>
+                        <button type="submit" name="login">Iniciar Sesión</button>
+                    </form>
+                    <p>¿Aún no tienes una cuenta? <a href="#" onclick="toggleForm('registro-form')">Regístrate</a></p>
+                </div>
         </section>
+
+        <!-- Formulario de Registro -->
         <section>
-            <button>
-                <a style="text-decoration: none; color: #fff" href="admin_login.php">Iniciar Sesión como Administrador</a>
-            </button>
-        </section>
+            <div id="registro-form" style="display: none;">
+                <h2>Registro</h2>
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" name="nombre" required>
+
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" name="telefono">
+
+                    <label for="email_reg">Email:</label>
+                    <input type="email" name="email" id="email_reg" required>
+
+                    <label for="contrasena_reg">Contraseña:</label>
+                    <input type="password" name="contrasena" id="contrasena_reg" required>
+
+                    <button type="submit" name="register">Registrarse</button>
+                </form>
+                <p>¿Ya tienes una cuenta? <a href="#" onclick="toggleForm('login-form')">Iniciar Sesión</a></p>
+            </div>
+    </div>
+    </section>
+    <section>
+        <br>
+        <button>
+            <a style="text-decoration: none; color: #fff" href="admin_login.php">Administrador</a>
+        </button>
+    </section>
     </div>
 
     <footer>
@@ -149,6 +158,23 @@ function test_input($data)
             <p>&copy; 2024 Tienda de Piercing. Todos los derechos reservados.</p>
         </div>
     </footer>
+
+    <script>
+        // Función para alternar entre el formulario de inicio de sesión y el de registro
+        function toggleForm(formId) {
+            var loginForm = document.getElementById('login-form');
+            var registroForm = document.getElementById('registro-form');
+
+            if (formId === 'registro-form') {
+                loginForm.style.display = 'none';
+                registroForm.style.display = 'block';
+            } else {
+                loginForm.style.display = 'block';
+                registroForm.style.display = 'none';
+            }
+        }
+    </script>
+
 </body>
 
 </html>

@@ -138,6 +138,7 @@ function test_input($data)
             </form>
         </section>
         <section>
+            <br>
             <button>
                 <a style="text-decoration: none; color: #fff" href="registro_login.php">Vuelve a tu sitio, muggle</a>
             </button>
