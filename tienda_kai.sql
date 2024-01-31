@@ -73,3 +73,12 @@ CREATE TABLE favoritos (
     FOREIGN KEY (ID_usuario) REFERENCES usuarios(ID_usuario),
     FOREIGN KEY (ID_producto) REFERENCES productos(ID_producto)
 );
+
+-- Crear la tabla de notificaciones
+CREATE TABLE notificaciones (
+    ID_notificacion INT PRIMARY KEY AUTO_INCREMENT,
+    ID_usuario INT,
+    nuevo_correo VARCHAR(100),
+    estado VARCHAR(20) DEFAULT 'no leída',
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

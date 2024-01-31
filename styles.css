@@ -110,10 +110,28 @@ button:hover {
     background-color: #555;
 }
 
+/* Estilos para las tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
 /* Estilos para el pie de página */
 footer {
     background-color: #333;
     color: #fff;
     padding: 10px 0;
     text-align: center;
+    margin-top: 20px; /* Ajusta el margen superior según sea necesario */
 }

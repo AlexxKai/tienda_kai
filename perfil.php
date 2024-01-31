@@ -1,4 +1,11 @@
 <?php
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
 session_start();
 
 // Verificar si el usuario está autenticado
@@ -38,12 +45,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cambiar_contrasena']))
 
 // Procesar la solicitud de cambio de correo electrónico
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cambiar_correo'])) {
-    // Aquí puedes obtener el nuevo correo electrónico desde el formulario
-    $nuevo_correo = $_POST['nuevo_correo'];
+    // Obtener el nuevo correo electrónico desde el formulario
+    $nuevo_correo = test_input($_POST['nuevo_correo']);
 
-    // Implementa la lógica para solicitar al administrador un cambio de correo electrónico
-    // Puedes enviar un correo al administrador o realizar otras acciones según tus necesidades
-    echo "Solicitud de cambio de correo electrónico enviada al administrador.";
+    // Actualizar el correo electrónico en la base de datos
+    $sql_update_correo = "UPDATE usuarios SET email = '$nuevo_correo' WHERE ID_usuario = $usuario_id";
+
+    if ($conn->query($sql_update_correo) === TRUE) {
+        echo "Correo electrónico actualizado exitosamente.";
+
+        // Registra la notificación
+        $sql_insert_notificacion = "INSERT INTO notificaciones (ID_usuario, nuevo_correo) VALUES ('$usuario_id', '$nuevo_correo')";
+        $conn->query($sql_insert_notificacion);
+    } else {
+        echo "Error al actualizar el correo electrónico: " . $conn->error;
+    }
 }
 
 $conn->close();

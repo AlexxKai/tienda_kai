@@ -1,6 +1,27 @@
 <?php
-include 'db.php';
 session_start();
+include 'db.php';
+
+if (isset($_SESSION['ID_usuario'])) {
+    $userID = $_SESSION['ID_usuario'];
+
+    // Obtener productos del carrito para el usuario actual
+    $sql = "SELECT carrito_compras.ID_producto, productos.nombre, productos.fabricante, carrito_compras.cantidad
+            FROM carrito_compras
+            INNER JOIN productos ON carrito_compras.ID_producto = productos.ID_producto
+            WHERE carrito_compras.ID_usuario = $userID";
+    $result = $conn->query($sql);
+
+    $productosEnCarrito = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $productosEnCarrito[] = $row;
+        }
+    }
+} else {
+    header("Location: catalogo.php"); // Redirigir si el usuario no está autenticado
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -17,29 +38,38 @@ session_start();
         <div class="container">
             <a href="index.php">Inicio</a>
             <a href="contacto.php">Contacto</a>
-
-            <?php
-            if (isset($_SESSION['ID_usuario'])) {
-                // Mostrar opciones adicionales si el usuario está autenticado
-                echo '<a href="logout.php">Logout</a>';
-                echo '<a href="perfil.php">Perfil</a>';  // Puedes enlazar a una página de perfil aquí
-                echo '<a href="carrito.php">Carrito de Compras</a>';  // Enlace activo en la página del carrito
-            } else {
-                echo '<a href="registro_login.php">Registro/Login</a>';
-            }
-            ?>
-
+            <a href="logout.php">Logout</a>
+            <a href="perfil.php">Perfil</a>
             <a href="catalogo.php">Catálogo</a>
+            <a href="mostrar_carrito.php">Carrito</a>
         </div>
     </nav>
 
     <div class="container">
         <h1>Carrito de Compras</h1>
 
-        <div id="cart-content">
-            <!-- Contenido del carrito (se actualizará dinámicamente) -->
-            <?php include 'mostrar_carrito.php'; ?>
-        </div>
+        <?php if (!empty($productosEnCarrito)) : ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Fabricante</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($productosEnCarrito as $producto) : ?>
+                        <tr>
+                            <td><?php echo $producto['nombre']; ?></td>
+                            <td><?php echo $producto['fabricante']; ?></td>
+                            <td><?php echo $producto['cantidad']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else : ?>
+            <p>El carrito de compras está vacío.</p>
+        <?php endif; ?>
     </div>
 
     <footer>
