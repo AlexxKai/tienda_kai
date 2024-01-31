@@ -68,13 +68,37 @@ session_start();
         </div>
     </footer>
 
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
+    function addToCart(productID) {
+        // Obtén la cantidad deseada (puedes ajustar esto según tus necesidades)
+        var quantity = prompt("Ingrese la cantidad:", "1");
+
+        // Verifica si la cantidad es válida y no es nula
+        if (quantity !== null && !isNaN(quantity) && quantity > 0) {
+            // Realiza la solicitud Ajax
+            $.ajax({
+                type: "POST",
+                url: "agregar_al_carrito.php",
+                data: { productID: productID, quantity: quantity },
+                success: function (response) {
+                    alert(response);
+                },
+                error: function () {
+                    alert("Error al agregar el producto al carrito.");
+                }
+            });
+        }
+    }
+</script>
+
+    <!-- <script>
         function addToCart(productID) {
             // Implementa la lógica para añadir productos al carrito de compras
             // Puedes usar AJAX para enviar la información al servidor
             alert('Producto añadido al carrito.');
         }
-    </script>
+    </script> -->
 </body>
 
 </html>
