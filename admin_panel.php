@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Mostrar resultados de la consulta
             $productos_consultados = "";
             while ($row = $result->fetch_assoc()) {
-                $productos_consultados .= "ID: " . $row["ID_producto"] . " - Nombre: " . $row["nombre"] . " - Cantidad: " . $row["cantidad"] . " - Fabricante: " . $row["fabricante"] . "\n";
+                $productos_consultados .= "ID: " . $row["ID_producto"] . " - Cantidad: " . $row["cantidad"] . " - Nombre: " . $row["nombre"] . " - Fabricante: " . $row["fabricante"] . "\n";
             }
             mostrarAlerta("Consultar Productos", $productos_consultados);
         } else {
@@ -112,7 +112,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['consultar_pedidos'])) {
     // Aquí debes implementar la lógica para consultar pedidos realizados
     // Puedes hacer consultas a la base de datos y mostrar los resultados
-    // ...
     mostrarAlerta("Consultar Pedidos", "Aquí deberías mostrar la información de los pedidos realizados.");
 }
 

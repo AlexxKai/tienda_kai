@@ -70,27 +70,30 @@ session_start();
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-    function addToCart(productID) {
-        // Obtén la cantidad deseada (puedes ajustar esto según tus necesidades)
-        var quantity = prompt("Ingrese la cantidad:", "1");
+        function addToCart(productID) {
+            // Obtén la cantidad deseada (puedes ajustar esto según tus necesidades)
+            var quantity = prompt("Ingrese la cantidad:", "1");
 
-        // Verifica si la cantidad es válida y no es nula
-        if (quantity !== null && !isNaN(quantity) && quantity > 0) {
-            // Realiza la solicitud Ajax
-            $.ajax({
-                type: "POST",
-                url: "agregar_al_carrito.php",
-                data: { productID: productID, quantity: quantity },
-                success: function (response) {
-                    alert(response);
-                },
-                error: function () {
-                    alert("Error al agregar el producto al carrito.");
-                }
-            });
+            // Verifica si la cantidad es válida y no es nula
+            if (quantity !== null && !isNaN(quantity) && quantity > 0) {
+                // Realiza la solicitud Ajax
+                $.ajax({
+                    type: "POST",
+                    url: "agregar_al_carrito.php",
+                    data: {
+                        productID: productID,
+                        quantity: quantity
+                    },
+                    success: function(response) {
+                        alert(response);
+                    },
+                    error: function() {
+                        alert("Error al agregar el producto al carrito.");
+                    }
+                });
+            }
         }
-    }
-</script>
+    </script>
 
     <!-- <script>
         function addToCart(productID) {
