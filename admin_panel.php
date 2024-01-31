@@ -161,14 +161,35 @@ function mostrarAlerta($titulo, $mensaje) {
         <h1>Panel de Administración</h1>
 
         <!-- Área de Notificaciones -->
-        <section>
-            <h2>Notificaciones</h2>
-            <!-- Formulario para notificar cambios de correo electrónico -->
-            <form method="post">
-                <button type="submit" name="notificar_cambios">Notificar Cambios</button>
-            </form>
-            <!-- Contenido del área de notificaciones -->
-        </section>
+<section>
+    <h2>Notificaciones</h2>
+    
+    <!-- Formulario para notificar cambios de correo electrónico -->
+    <form method="post">
+        <button type="submit" name="notificar_cambios">Notificar Cambios</button>
+    </form>
+
+    <!-- Contenido del área de notificaciones -->
+    <?php
+    // Consultar notificaciones no leídas
+    $sql = "SELECT * FROM notificaciones WHERE estado = 'no leída'";
+    $result = $conn->query($sql);
+
+    // Mostrar notificaciones en el panel de administración
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo '<div class="notification">';
+            echo '<p>Nueva solicitud de cambio de correo electrónico para el usuario ID ' . $row['ID_usuario'] . '</p>';
+            echo '<p>Nuevo correo: ' . $row['nuevo_correo'] . '</p>';
+            // Agregar opciones para gestionar la notificación (marcar como leída, aprobar, rechazar, etc.)
+            echo '</div>';
+        }
+    } else {
+        echo '<p>No hay nuevas notificaciones.</p>';
+    }
+    ?>
+</section>
+
 
         <!-- Gestión del Catálogo -->
         <section>

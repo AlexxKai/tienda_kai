@@ -29,7 +29,14 @@ CREATE TABLE usuarios (
     contrasena VARCHAR(255) NOT NULL
 );
 
--- Crear la tabla de productos
+-- Crear la tabla de administradores
+CREATE TABLE administradores (
+    ID_administrador INT PRIMARY KEY AUTO_INCREMENT,
+    nombre_apellidos VARCHAR(100) NOT NULL,
+    telefono VARCHAR(15),
+    email VARCHAR(100) UNIQUE NOT NULL,
+    contrasena VARCHAR(255) NOT NULL
+);
 CREATE TABLE productos (
     ID_producto INT PRIMARY KEY AUTO_INCREMENT,
     cantidad INT NOT NULL,
@@ -79,6 +86,6 @@ CREATE TABLE notificaciones (
     ID_notificacion INT PRIMARY KEY AUTO_INCREMENT,
     ID_usuario INT,
     nuevo_correo VARCHAR(100),
-    estado VARCHAR(20) DEFAULT 'no leída',
+    estado ENUM('no leída', 'leída', 'gestionada') DEFAULT 'no leída',
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

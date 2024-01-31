@@ -139,7 +139,7 @@ function test_input($data)
         </section>
         <section>
             <button>
-                <a style="text-decoration: none; color: #fff" href="admin_login.php">Iniciar Sesión como Administrador</a>
+                <a style="text-decoration: none; color: #fff" href="registro_login.php">Vuelve a tu sitio, muggle</a>
             </button>
         </section>
     </div>
