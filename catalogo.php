@@ -23,6 +23,7 @@ session_start();
                 // Mostrar opciones adicionales si el usuario está autenticado
                 echo '<a href="logout.php">Logout</a>';
                 echo '<a href="perfil.php">Perfil</a>';  // Puedes enlazar a una página de perfil aquí
+                echo '<a href="carrito.php">Carrito de Compras</a>';  // Nuevo enlace al carrito
             } else {
                 echo '<a href="registro_login.php">Registro/Login</a>';
             }

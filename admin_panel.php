@@ -16,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['notificar_cambios'])) 
     $mensaje_notificacion = "Se ha solicitado un cambio de correo electrónico. Usuario: {usuario}, Nuevo Correo: {nuevo_correo}";
     // Enviar notificación al administrador o manejar según tus necesidades
     // ...
+    mostrarAlerta("Notificación de Cambios", $mensaje_notificacion);
 }
 
 // Lógica para gestionar el catálogo (añadir, eliminar, modificar y consultar)
@@ -33,13 +34,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($conn->query($sql) === TRUE) {
                 // Éxito al añadir el producto
-                echo "Producto añadido exitosamente.";
+                mostrarAlerta("Añadir Producto", "Producto añadido exitosamente.");
             } else {
                 // Error al añadir el producto
-                echo "Error al añadir el producto: " . $conn->error;
+                mostrarAlerta("Añadir Producto", "Error al añadir el producto: " . $conn->error);
             }
         } else {
-            echo "Por favor, completa todos los campos antes de añadir el producto.";
+            mostrarAlerta("Añadir Producto", "Por favor, completa todos los campos antes de añadir el producto.");
         }
     }
 
@@ -54,13 +55,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($conn->query($sql) === TRUE) {
                 // Éxito al eliminar el producto
-                echo "Producto eliminado exitosamente.";
+                mostrarAlerta("Eliminar Producto", "Producto eliminado exitosamente.");
             } else {
                 // Error al eliminar el producto
-                echo "Error al eliminar el producto: " . $conn->error;
+                mostrarAlerta("Eliminar Producto", "Error al eliminar el producto: " . $conn->error);
             }
         } else {
-            echo "Por favor, ingresa el ID del producto antes de intentar eliminarlo.";
+            mostrarAlerta("Eliminar Producto", "Por favor, ingresa el ID del producto antes de intentar eliminarlo.");
         }
     }
 
@@ -78,13 +79,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($conn->query($sql) === TRUE) {
                 // Éxito al modificar el producto
-                echo "Producto modificado exitosamente.";
+                mostrarAlerta("Modificar Producto", "Producto modificado exitosamente.");
             } else {
                 // Error al modificar el producto
-                echo "Error al modificar el producto: " . $conn->error;
+                mostrarAlerta("Modificar Producto", "Error al modificar el producto: " . $conn->error);
             }
         } else {
-            echo "Por favor, ingresa el ID del producto antes de intentar modificarlo.";
+            mostrarAlerta("Modificar Producto", "Por favor, ingresa el ID del producto antes de intentar modificarlo.");
         }
     }
 
@@ -96,11 +97,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($result->num_rows > 0) {
             // Mostrar resultados de la consulta
+            $productos_consultados = "";
             while ($row = $result->fetch_assoc()) {
-                echo "ID: " . $row["ID_producto"]. " - Nombre: " . $row["nombre"]. " - Cantidad: " . $row["cantidad"]. " - Fabricante: " . $row["fabricante"]. "<br>";
+                $productos_consultados .= "ID: " . $row["ID_producto"] . " - Nombre: " . $row["nombre"] . " - Cantidad: " . $row["cantidad"] . " - Fabricante: " . $row["fabricante"] . "\n";
             }
+            mostrarAlerta("Consultar Productos", $productos_consultados);
         } else {
-            echo "No hay productos en el catálogo.";
+            mostrarAlerta("Consultar Productos", "No hay productos en el catálogo.");
         }
     }
 }
@@ -110,6 +113,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['consultar_pedidos'])) 
     // Aquí debes implementar la lógica para consultar pedidos realizados
     // Puedes hacer consultas a la base de datos y mostrar los resultados
     // ...
+    mostrarAlerta("Consultar Pedidos", "Aquí deberías mostrar la información de los pedidos realizados.");
+}
+
+// Función para mostrar una alerta en JavaScript
+function mostrarAlerta($titulo, $mensaje) {
+    echo "<script>alert('$titulo: $mensaje');</script>";
 }
 
 ?>
