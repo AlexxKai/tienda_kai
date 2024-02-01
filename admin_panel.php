@@ -95,18 +95,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "SELECT * FROM productos";
         $result = $conn->query($sql);
 
+        $productosEnCarrito = [];
         if ($result->num_rows > 0) {
-            // Mostrar resultados de la consulta
-            $productos_consultados = "";
             while ($row = $result->fetch_assoc()) {
-                $productos_consultados .= "ID: " . $row["ID_producto"] . " - Cantidad: " . $row["cantidad"] . " - Nombre: " . $row["nombre"] . " - Fabricante: " . $row["fabricante"] . "\n";
+                $productosEnCarrito[] = $row;
             }
-            mostrarAlerta("Consultar Productos", $productos_consultados);
-        } else {
-            mostrarAlerta("Consultar Productos", "No hay productos en el catálogo.");
         }
+    } else {
     }
 }
+
 
 // Lógica para consultar pedidos realizados
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['consultar_pedidos'])) {
@@ -190,11 +188,33 @@ function mostrarAlerta($titulo, $mensaje)
 
             <!-- Consultar Productos -->
             <form method="post">
-                <h3>Consultar Productos</h3>
-                <button type="submit" name="consultar_productos">Consultar Productos</button>
+                <h3>Catálogo</h3>
+                <button type="submit" name="consultar_productos">Actualizar catálogo</button>
             </form>
 
             <!-- Contenido del área de gestión del catálogo -->
+            <div class="container">
+                <?php if (!empty($productosEnCarrito)) : ?>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Fabricante</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($productosEnCarrito as $producto) : ?>
+                                <tr>
+                                    <td><?php echo $producto['nombre']; ?></td>
+                                    <td><?php echo $producto['fabricante']; ?></td>
+                                    <td><?php echo $producto['cantidad']; ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+            </div>
             
             <!-- Añadir Producto -->
             <form method="post">
