@@ -10,6 +10,15 @@ if (!$es_admin) {
     exit();
 }
 
+// Lógica para manejar notificaciones de cambios de correo electrónico
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['notificar_cambios'])) {
+    // Aquí debes implementar la lógica para manejar las notificaciones de cambios de correo electrónico
+    $mensaje_notificacion = "Se ha solicitado un cambio de correo electrónico. Usuario: {usuario}, Nuevo Correo: {nuevo_correo}";
+    // Enviar notificación al administrador o manejar según tus necesidades
+    // ...
+    mostrarAlerta("Notificación de Cambios", $mensaje_notificacion);
+}
+
 // Lógica para gestionar el catálogo (añadir, eliminar, modificar y consultar)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Añadir producto al catálogo
@@ -96,6 +105,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+
+// Lógica para consultar pedidos realizados
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['consultar_pedidos'])) {
+    // Aquí debes implementar la lógica para consultar pedidos realizados
+    // Puedes hacer consultas a la base de datos y mostrar los resultados
+    mostrarAlerta("Consultar Pedidos", "Aquí deberías mostrar la información de los pedidos realizados.");
+}
+
 // Función para mostrar una alerta en JavaScript
 function mostrarAlerta($titulo, $mensaje)
 {
@@ -133,103 +150,14 @@ function mostrarAlerta($titulo, $mensaje)
         </div>
     </nav>
 
-    <!-- Gestión del Catálogo -->
-
     <div class="container">
-        <h1>Gestión del Catálogo</h1>
+        <!-- Consultar Pedidos Realizados -->
         <section>
-            <!-- Consultar Productos -->
+            <h2>Consultar Pedidos Realizados</h2>
             <form method="post">
-                <h3>Catálogo</h3>
-                <button type="submit" name="consultar_productos">Actualizar catálogo</button>
+                <button type="submit" name="consultar_pedidos">Consultar Pedidos</button>
             </form>
-
-            <!-- Contenido del área de gestión del catálogo -->
-            <div class="container">
-                <?php if (!empty($productosEnCarrito)) : ?>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID_producto</th>
-                                <th>Producto</th>
-                                <th>Fabricante</th>
-                                <th>Cantidad</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($productosEnCarrito as $producto) : ?>
-                                <tr>
-                                    <td><?php echo $producto['ID_producto']; ?></td>
-                                    <td><?php echo $producto['nombre']; ?></td>
-                                    <td><?php echo $producto['fabricante']; ?></td>
-                                    <td><?php echo $producto['cantidad']; ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                <?php endif; ?>
-            </div>
-
-            <!-- Formulario para gestionar el catálogo -->
-            <div class="container">
-                <h1>Selecciona el Tipo de Formulario</h1>
-
-                <label for="tipo_formulario">Tipo de Formulario:</label>
-                <select id="tipo_formulario" onchange="mostrarFormulario()">
-                    <option value="#">Selecciona:</option>
-                    <option value="formulario1">Añadir producto</option>
-                    <option value="formulario2">Eliminar producto</option>
-                    <option value="formulario3">Modificar producto</option>
-
-                </select>
-                <!-- Añadir Producto -->
-                <div id="formulario1" style="display: none;">
-                    <form method="post">
-                        <h3>Añadir Producto</h3>
-                        <label for="nombre_producto">Nombre del Producto:</label>
-                        <input type="text" name="nombre_producto" required>
-
-                        <label for="cantidad_producto">Cantidad:</label>
-                        <input type="number" name="cantidad_producto" required>
-
-                        <label for="fabricante_producto">Fabricante:</label>
-                        <input type="text" name="fabricante_producto">
-
-                        <button type="submit" name="añadir_producto">Añadir Producto</button>
-                    </form>
-                </div>
-
-
-                <!-- Eliminar Producto -->
-                <div id="formulario2" style="display: none;">
-                    <form method="post">
-                        <h3>Eliminar Producto</h3>
-                        <label for="id_producto_eliminar">ID del Producto:</label>
-                        <input type="number" name="id_producto_eliminar" required>
-
-                        <button type="submit" name="eliminar_producto">Eliminar Producto</button>
-                    </form>
-                </div>
-
-                <!-- Modificar Producto -->
-                <div id="formulario3" style="display: none;">
-                    <form method="post">
-                        <h3>Modificar Producto</h3>
-                        <label for="id_producto_modificar">ID del Producto:</label>
-                        <input type="number" name="id_producto_modificar" required>
-
-                        <label for="nuevo_nombre_producto">Nuevo Nombre:</label>
-                        <input type="text" name="nuevo_nombre_producto">
-
-                        <label for="nueva_cantidad_producto">Nueva Cantidad:</label>
-                        <input type="number" name="nueva_cantidad_producto">
-
-                        <label for="nuevo_fabricante_producto">Nuevo Fabricante:</label>
-                        <input type="text" name="nuevo_fabricante_producto">
-
-                        <button type="submit" name="modificar_producto">Modificar Producto</button>
-                    </form>
-                </div>
+            <!-- Contenido del área de consultas de pedidos -->
         </section>
     </div>
 
@@ -238,23 +166,6 @@ function mostrarAlerta($titulo, $mensaje)
             <p>&copy; 2024 Tienda de Piercing. Todos los derechos reservados.</p>
         </div>
     </footer>
-
-    <script>
-        function mostrarFormulario() {
-            // Obtén el valor seleccionado en el elemento select
-            var tipoFormulario = document.getElementById("tipo_formulario").value;
-
-            // Oculta todos los formularios
-            var formularios = document.querySelectorAll('[id^="formulario"]');
-            formularios.forEach(function(formulario) {
-                formulario.style.display = "none";
-            });
-
-            // Muestra el formulario seleccionado
-            document.getElementById(tipoFormulario).style.display = "block";
-        }
-    </script>
-
 </body>
 
 </html>
