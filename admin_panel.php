@@ -188,6 +188,14 @@ function mostrarAlerta($titulo, $mensaje)
         <section>
             <h2>Gestión del Catálogo</h2>
 
+            <!-- Consultar Productos -->
+            <form method="post">
+                <h3>Consultar Productos</h3>
+                <button type="submit" name="consultar_productos">Consultar Productos</button>
+            </form>
+
+            <!-- Contenido del área de gestión del catálogo -->
+            
             <!-- Añadir Producto -->
             <form method="post">
                 <h3>Añadir Producto</h3>
@@ -229,14 +237,6 @@ function mostrarAlerta($titulo, $mensaje)
 
                 <button type="submit" name="modificar_producto">Modificar Producto</button>
             </form>
-
-            <!-- Consultar Productos -->
-            <form method="post">
-                <h3>Consultar Productos</h3>
-                <button type="submit" name="consultar_productos">Consultar Productos</button>
-            </form>
-
-            <!-- Contenido del área de gestión del catálogo -->
         </section>
 
         <!-- Consultar Pedidos Realizados -->
