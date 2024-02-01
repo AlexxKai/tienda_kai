@@ -198,6 +198,7 @@ function mostrarAlerta($titulo, $mensaje)
                     <table>
                         <thead>
                             <tr>
+                                <th>ID_producto</th>
                                 <th>Producto</th>
                                 <th>Fabricante</th>
                                 <th>Cantidad</th>
@@ -206,6 +207,7 @@ function mostrarAlerta($titulo, $mensaje)
                         <tbody>
                             <?php foreach ($productosEnCarrito as $producto) : ?>
                                 <tr>
+                                    <td><?php echo $producto['ID_producto']; ?></td>
                                     <td><?php echo $producto['nombre']; ?></td>
                                     <td><?php echo $producto['fabricante']; ?></td>
                                     <td><?php echo $producto['cantidad']; ?></td>
@@ -215,7 +217,7 @@ function mostrarAlerta($titulo, $mensaje)
                     </table>
                 <?php endif; ?>
             </div>
-            
+
             <!-- Añadir Producto -->
             <form method="post">
                 <h3>Añadir Producto</h3>
