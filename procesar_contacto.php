@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    // Guardar los datos en la base de datos o realizar otras acciones según sea necesario
+    // Guardar los mensajes en la base de datos
     $sql = "INSERT INTO mensajes_contacto (nombre, email, mensaje) VALUES ('$nombre', '$email', '$mensaje')";
 
     if ($conn->query($sql) === TRUE) {
@@ -42,4 +42,3 @@ function test_input($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
-?>

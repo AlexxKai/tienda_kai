@@ -41,7 +41,8 @@ CREATE TABLE productos (
     ID_producto INT PRIMARY KEY AUTO_INCREMENT,
     cantidad INT NOT NULL,
     nombre VARCHAR(100) NOT NULL,
-    fabricante VARCHAR(100)
+    fabricante VARCHAR(100),
+    precio INT NOT NULL
 );
 
 -- Crear la tabla de pedidos

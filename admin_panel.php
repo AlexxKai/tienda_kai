@@ -17,11 +17,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $nombre_producto = isset($_POST['nombre_producto']) ? $_POST['nombre_producto'] : "";
         $cantidad_producto = isset($_POST['cantidad_producto']) ? $_POST['cantidad_producto'] : "";
         $fabricante_producto = isset($_POST['fabricante_producto']) ? $_POST['fabricante_producto'] : "";
+        $precio_producto = isset($_POST['precio_producto']) ? $_POST['precio_producto'] : "";
 
         // Verificar si los campos numéricos no están vacíos
-        if ($nombre_producto != "" && $cantidad_producto != "" && $fabricante_producto != "") {
+        if ($nombre_producto != "" && $cantidad_producto != "" && $fabricante_producto != "" && $precio_producto != "") {
             // Insertar nuevo producto en la base de datos
-            $sql = "INSERT INTO productos (cantidad, nombre, fabricante) VALUES ('$cantidad_producto', '$nombre_producto', '$fabricante_producto')";
+            $sql = "INSERT INTO productos (cantidad, nombre, fabricante, precio) VALUES ('$cantidad_producto', '$nombre_producto', '$fabricante_producto', '$precio_producto')";
 
             if ($conn->query($sql) === TRUE) {
                 // Éxito al añadir el producto
@@ -62,11 +63,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $nuevo_nombre_producto = isset($_POST['nuevo_nombre_producto']) ? $_POST['nuevo_nombre_producto'] : "";
         $nueva_cantidad_producto = isset($_POST['nueva_cantidad_producto']) ? $_POST['nueva_cantidad_producto'] : "";
         $nuevo_fabricante_producto = isset($_POST['nuevo_fabricante_producto']) ? $_POST['nuevo_fabricante_producto'] : "";
+        $nuevo_precio_producto = isset($_POST['nuevo_precio_producto']) ? $_POST['nuevo_precio_producto'] : "";
 
         // Verificar si los campos numéricos no están vacíos
         if ($id_producto_modificar != "") {
             // Modificar producto en la base de datos
-            $sql = "UPDATE productos SET nombre='$nuevo_nombre_producto', cantidad='$nueva_cantidad_producto', fabricante='$nuevo_fabricante_producto' WHERE ID_producto='$id_producto_modificar'";
+            $sql = "UPDATE productos SET nombre='$nuevo_nombre_producto', cantidad='$nueva_cantidad_producto', fabricante='$nuevo_fabricante_producto', precio='$nuevo_precio_producto' WHERE ID_producto='$id_producto_modificar'";
 
             if ($conn->query($sql) === TRUE) {
                 // Éxito al modificar el producto
@@ -154,6 +156,7 @@ function mostrarAlerta($titulo, $mensaje)
                                 <th>Producto</th>
                                 <th>Fabricante</th>
                                 <th>Cantidad</th>
+                                <th>Precio</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -163,6 +166,7 @@ function mostrarAlerta($titulo, $mensaje)
                                     <td><?php echo $producto['nombre']; ?></td>
                                     <td><?php echo $producto['fabricante']; ?></td>
                                     <td><?php echo $producto['cantidad']; ?></td>
+                                    <td><?php echo $producto['precio'] . '€'; ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -195,6 +199,9 @@ function mostrarAlerta($titulo, $mensaje)
                         <label for="fabricante_producto">Fabricante:</label>
                         <input type="text" name="fabricante_producto">
 
+                        <label for="precio_producto">Precio:</label>
+                        <input type="text" name="precio_producto">
+
                         <button type="submit" name="añadir_producto">Añadir Producto</button>
                     </form>
                 </div>
@@ -218,14 +225,17 @@ function mostrarAlerta($titulo, $mensaje)
                         <label for="id_producto_modificar">ID del Producto:</label>
                         <input type="number" name="id_producto_modificar" required>
 
-                        <label for="nuevo_nombre_producto">Nuevo Nombre:</label>
+                        <label for="nuevo_nombre_producto">Nuevo nombre:</label>
                         <input type="text" name="nuevo_nombre_producto">
 
-                        <label for="nueva_cantidad_producto">Nueva Cantidad:</label>
+                        <label for="nueva_cantidad_producto">Nueva cantidad:</label>
                         <input type="number" name="nueva_cantidad_producto">
 
-                        <label for="nuevo_fabricante_producto">Nuevo Fabricante:</label>
+                        <label for="nuevo_fabricante_producto">Nuevo fabricante:</label>
                         <input type="text" name="nuevo_fabricante_producto">
+
+                        <label for="nuevo_precio_producto">Nuevo precio:</label>
+                        <input type="text" name="nuevo_precio_producto">
 
                         <button type="submit" name="modificar_producto">Modificar Producto</button>
                     </form>
