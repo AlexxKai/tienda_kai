@@ -6,10 +6,10 @@ if (isset($_SESSION['ID_usuario'])) {
     $userID = $_SESSION['ID_usuario'];
 
     // Obtener productos del carrito para el usuario actual
-    $sql = "SELECT carrito_compras.ID_producto, productos.nombre, productos.fabricante, carrito_compras.cantidad
-            FROM carrito_compras
-            INNER JOIN productos ON carrito_compras.ID_producto = productos.ID_producto
-            WHERE carrito_compras.ID_usuario = $userID";
+    $sql = "SELECT carrito_compras.ID_producto, productos.nombre, productos.fabricante, productos.precio, carrito_compras.cantidad
+        FROM carrito_compras
+        INNER JOIN productos ON carrito_compras.ID_producto = productos.ID_producto
+        WHERE carrito_compras.ID_usuario = $userID";
     $result = $conn->query($sql);
 
     $productosEnCarrito = [];
@@ -53,7 +53,7 @@ if (isset($_SESSION['ID_usuario'])) {
                 <thead>
                     <tr>
                         <th>Producto</th>
-                        <th>Fabricante</th>
+                        <th>Precio</th>
                         <th>Cantidad</th>
                     </tr>
                 </thead>
@@ -61,7 +61,7 @@ if (isset($_SESSION['ID_usuario'])) {
                     <?php foreach ($productosEnCarrito as $producto) : ?>
                         <tr>
                             <td><?php echo $producto['nombre']; ?></td>
-                            <td><?php echo $producto['fabricante']; ?></td>
+                            <td><?php echo $producto['precio'].'€'; ?></td>
                             <td><?php echo $producto['cantidad']; ?></td>
                         </tr>
                     <?php endforeach; ?>

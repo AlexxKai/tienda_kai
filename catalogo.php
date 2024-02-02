@@ -23,7 +23,7 @@ session_start();
                 // Mostrar opciones adicionales si el usuario está autenticado
                 echo '<a href="logout.php">Logout</a>';
                 echo '<a href="perfil.php">Perfil</a>';  // Puedes enlazar a una página de perfil aquí
-                echo '<a href="carrito.php">Carrito de Compras</a>';  // Nuevo enlace al carrito
+                echo '<a href="carrito.php">Carrito de compra</a>';  // Nuevo enlace al carrito
             } else {
                 echo '<a href="registro_login.php">Registro/Login</a>';
             }
@@ -34,7 +34,7 @@ session_start();
     </nav>
 
     <div class="container">
-        <h1>Catálogo de Productos</h1>
+        <h1>Catálogo</h1>
 
         <div class="product-list">
             <!-- Mostrar productos desde la base de datos -->
@@ -46,7 +46,7 @@ session_start();
                 while ($row = $result->fetch_assoc()) {
                     echo '<div class="product">';
                     echo '<h2>' . $row['nombre'] . '</h2>';
-                    echo '<p>Fabricante: ' . $row['fabricante'] . '</p>';
+                    echo '<p>' . $row['precio'] . '€' . '</p>';
                     echo '<p>Cantidad: ' . $row['cantidad'] . '</p>';
                     echo '<button onclick="addToCart(' . $row['ID_producto'] . ')">Añadir al Carrito</button>';
                     echo '</div>';
