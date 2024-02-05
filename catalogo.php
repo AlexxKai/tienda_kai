@@ -46,7 +46,7 @@ session_start();
                 while ($row = $result->fetch_assoc()) {
                     echo '<div class="product">';
                     echo '<h2>' . $row['nombre'] . '</h2>';
-                    echo '<p>' . $row['precio'] . '€' . '</p>';
+                    echo '<p>' . $row['precio'] . '€/unidad' . '</p>';
                     echo '<p>Cantidad: ' . $row['cantidad'] . '</p>';
                     echo '<input type="number" min="1" value="1" id="quantity_' . $row['ID_producto'] . '">';
                     echo '<button onclick="addToCart(' . $row['ID_producto'] . ')">Añadir al Carrito</button>';
