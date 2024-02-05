@@ -48,6 +48,7 @@ session_start();
                     echo '<h2>' . $row['nombre'] . '</h2>';
                     echo '<p>' . $row['precio'] . '€' . '</p>';
                     echo '<p>Cantidad: ' . $row['cantidad'] . '</p>';
+                    echo '<input type="number" min="1" value="1" id="quantity_' . $row['ID_producto'] . '">';
                     echo '<button onclick="addToCart(' . $row['ID_producto'] . ')">Añadir al Carrito</button>';
                     echo '</div>';
                 }
@@ -70,38 +71,45 @@ session_start();
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-        function addToCart(productID) {
-            // Obtén la cantidad deseada (puedes ajustar esto según tus necesidades)
-            var quantity = prompt("Ingrese la cantidad:", "1");
+    function addToCart(productID) {
+        // Obtén la cantidad deseada
+        var quantityInput = document.getElementById('quantity_' + productID);
+        var quantity = quantityInput.value;
 
-            // Verifica si la cantidad es válida y no es nula
-            if (quantity !== null && !isNaN(quantity) && quantity > 0) {
-                // Realiza la solicitud Ajax
-                $.ajax({
-                    type: "POST",
-                    url: "agregar_al_carrito.php",
-                    data: {
-                        productID: productID,
-                        quantity: quantity
-                    },
-                    success: function(response) {
+        // Verifica si la cantidad es válida y no es nula
+        if (quantity !== null && !isNaN(quantity) && quantity > 0) {
+            // Realiza la solicitud Ajax
+            $.ajax({
+                type: "POST",
+                url: "agregar_al_carrito.php",
+                data: {
+                    productID: productID,
+                    quantity: quantity
+                },
+                success: function(response) {
+                    // Divide la respuesta usando el delimitador "|"
+                    var parts = response.split("|");
+
+                    // Verifica si hay al menos dos partes en la respuesta
+                    if (parts.length >= 2 && parts[0] === "1") {
+                        // Actualiza la cantidad disponible
+                        var cantidadDisponible = parts[1];
+                        alert("Producto añadido al carrito correctamente.\nCantidad disponible: " + cantidadDisponible);
+
+                        // Restablece la cantidad a 1
+                        quantityInput.value = 1;
+                    } else {
                         alert(response);
-                    },
-                    error: function() {
-                        alert("Error al agregar el producto al carrito.");
                     }
-                });
-            }
+                },
+                error: function() {
+                    alert("Error al agregar el producto al carrito.");
+                }
+            });
         }
-    </script>
+    }
+</script>
 
-    <!-- <script>
-        function addToCart(productID) {
-            // Implementa la lógica para añadir productos al carrito de compras
-            // Puedes usar AJAX para enviar la información al servidor
-            alert('Producto añadido al carrito.');
-        }
-    </script> -->
 </body>
 
 </html>
