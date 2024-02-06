@@ -20,16 +20,16 @@ session_start();
 
             <?php
             if (isset($_SESSION['ID_usuario'])) {
-                // Mostrar opciones adicionales si el usuario está autenticado
+                // opciones para usuario autenticado
                 echo '<a href="logout.php">Logout</a>';
-                echo '<a href="perfil.php">Perfil</a>';  // Puedes enlazar a una página de perfil aquí
-                echo '<a href="carrito.php">Carrito de compra</a>';  // Nuevo enlace al carrito
+                echo '<a href="perfil.php">Perfil</a>';
+                echo '<a href="catalogo.php">Catálogo</a>';
             } else {
                 echo '<a href="registro_login.php">Registro/Login</a>';
             }
             ?>
 
-            <a href="catalogo.php">Catálogo</a>
+            <a href="carrito.php">Carrito de compra</a>
         </div>
     </nav>
 
@@ -37,7 +37,6 @@ session_start();
         <h1>Catálogo</h1>
 
         <div class="product-list">
-            <!-- Mostrar productos desde la base de datos -->
             <?php
             $sql = "SELECT * FROM productos";
             $result = $conn->query($sql);
@@ -57,10 +56,6 @@ session_start();
             }
             ?>
         </div>
-
-        <div id="cart">
-            <!-- Contenido del carrito de compras -->
-        </div>
     </div>
 
     <footer>
@@ -71,44 +66,44 @@ session_start();
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-    function addToCart(productID) {
-        // Obtén la cantidad deseada
-        var quantityInput = document.getElementById('quantity_' + productID);
-        var quantity = quantityInput.value;
+        function addToCart(productID) {
+            // Obtén la cantidad deseada
+            var quantityInput = document.getElementById('quantity_' + productID);
+            var quantity = quantityInput.value;
 
-        // Verifica si la cantidad es válida y no es nula
-        if (quantity !== null && !isNaN(quantity) && quantity > 0) {
-            // Realiza la solicitud Ajax
-            $.ajax({
-                type: "POST",
-                url: "agregar_al_carrito.php",
-                data: {
-                    productID: productID,
-                    quantity: quantity
-                },
-                success: function(response) {
-                    // Divide la respuesta usando el delimitador "|"
-                    var parts = response.split("|");
+            // Verifica si la cantidad es válida y no es nula
+            if (quantity !== null && !isNaN(quantity) && quantity > 0) {
+                // Realiza la solicitud Ajax
+                $.ajax({
+                    type: "POST",
+                    url: "agregar_al_carrito.php",
+                    data: {
+                        productID: productID,
+                        quantity: quantity
+                    },
+                    success: function(response) {
+                        // Divide la respuesta usando el delimitador "|"
+                        var parts = response.split("|");
 
-                    // Verifica si hay al menos dos partes en la respuesta
-                    if (parts.length >= 2 && parts[0] === "1") {
-                        // Actualiza la cantidad disponible
-                        var cantidadDisponible = parts[1];
-                        alert("Producto añadido al carrito correctamente.\nCantidad disponible: " + cantidadDisponible);
+                        // Verifica si hay al menos dos partes en la respuesta
+                        if (parts.length >= 2 && parts[0] === "1") {
+                            // Actualiza la cantidad disponible
+                            var cantidadDisponible = parts[1];
+                            alert("Producto añadido al carrito correctamente")
 
-                        // Restablece la cantidad a 1
-                        quantityInput.value = 1;
-                    } else {
-                        alert(response);
+                            // Restablece la cantidad a 1
+                            quantityInput.value = 1;
+                        } else {
+                            alert(response);
+                        }
+                    },
+                    error: function() {
+                        alert("Error al agregar el producto al carrito.");
                     }
-                },
-                error: function() {
-                    alert("Error al agregar el producto al carrito.");
-                }
-            });
+                });
+            }
         }
-    }
-</script>
+    </script>
 
 </body>
 

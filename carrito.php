@@ -74,6 +74,51 @@ if (isset($_POST['finalizar'])) {
     <meta charset="UTF-8">
     <title>Carrito</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- icons -->
+    <link href="./node_modules/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        button {
+            background-color: transparent;
+            border: none;
+            color: black;
+            transition: cubic-bezier(0.075, 0.82, 0.165, 1) transform .3s;
+        }
+
+        button:hover {
+            background-color: transparent;
+            transform: translateX(5px) rotate(360deg);
+            /* Mueve el icono 5px hacia la derecha y lo rota 180 grados */
+        }
+
+        .fin {
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            width: 100%;
+        }
+
+        i {
+            color: black;
+        }
+
+        h1 {
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        table {
+            width: 50%;
+            margin: 0 auto;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        th {
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -104,23 +149,24 @@ if (isset($_POST['finalizar'])) {
                     <?php foreach ($productosEnCarrito as $producto) : ?>
                         <tr>
                             <td><?php echo $producto['nombre']; ?></td>
-                            <td><?php echo $producto['precio_total'].'€'; ?></td>
+                            <td><?php echo $producto['precio_total'] . '€'; ?></td>
                             <td>
                                 <form method="post" action="carrito.php">
                                     <input type="hidden" name="productoID" value="<?php echo $producto['ID_producto']; ?>">
                                     <input type="number" name="nuevaCantidad" value="<?php echo $producto['cantidad']; ?>">
                             </td>
                             <td>
-                                    <input type="submit" name="modificar" value="Modificar">
+                                <form method="post" action="carrito.php">
+                                    <button type="submit" name="modificar" class="btn btn-primary"><i class="bi bi-pencil-fill"></i></button>
                                 </form>
-                                <a href="carrito.php?eliminar=<?php echo $producto['ID_producto']; ?>">Quitar</a>
+                                <button><a href="carrito.php?eliminar=<?php echo $producto['ID_producto']; ?>"><i class="bi bi-x-lg"></i></a></button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
             <form method="post" action="carrito.php">
-                <input type="submit" name="finalizar" value="Finalizar Compra">
+                <button type="submit" name="finalizar" class="fin">Finalizar compra<i class="bi bi-cart-fill"></i></button>
             </form>
         <?php else : ?>
             <p>El carrito de compras está vacío.</p>
