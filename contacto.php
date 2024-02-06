@@ -62,7 +62,7 @@ session_start();
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Tienda de Piercing. Todos los derechos reservados.</p>
+        <p>&copy; 2024 Kai piercing. Todos los derechos reservados.</p>
         </div>
     </footer>
 </body>

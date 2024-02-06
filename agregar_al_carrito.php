@@ -44,4 +44,3 @@ if (isset($_SESSION['ID_usuario']) && isset($_POST['productID']) && isset($_POST
 } else {
     echo "Acceso no autorizado.";
 }
-?>

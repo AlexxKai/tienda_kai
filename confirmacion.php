@@ -22,6 +22,12 @@ if (isset($_SESSION['ID_usuario'])) {
             $productosEnPedido[] = $row;
         }
     }
+
+    // Calcular el importe total de la compra
+    $importeTotal = 0;
+    foreach ($productosEnPedido as $producto) {
+        $importeTotal += $producto['precio_total'];
+    }
 } else {
     // Redirigir si el usuario no está autenticado
     header("Location: catalogo.php");
@@ -42,7 +48,7 @@ $conn->close();
 </head>
 
 <body>
-<nav>
+    <nav>
         <div class="container">
             <a href="catalogo.php">Catálogo</a>
             <a href="carrito.php">Volver</a>
@@ -71,6 +77,9 @@ $conn->close();
                     <?php endforeach; ?>
                 </tbody>
             </table>
+
+            <p>Importe Total: <?php echo $importeTotal . '€'; ?></p>
+
         <?php else : ?>
             <p>No hay productos en el pedido.</p>
         <?php endif; ?>
@@ -78,7 +87,7 @@ $conn->close();
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Tienda de Piercing. Todos los derechos reservados.</p>
+            <p>&copy; 2024 Kai piercing. Todos los derechos reservados.</p>
         </div>
     </footer>
 </body>

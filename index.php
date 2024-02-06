@@ -10,7 +10,16 @@ session_start();
     <meta charset="UTF-8">
     <title>Tienda de Piercing</title>
     <link rel="stylesheet" href="./styles.css">
-    <link rel="stylesheet" href="./styles.css">
+    <!-- Agrega el enlace a Leaflet desde CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet"></script>
+    <style>
+        /* Estilo básico para el contenedor del mapa */
+        .map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -21,9 +30,8 @@ session_start();
 
             <?php
             if (isset($_SESSION['ID_usuario'])) {
-                // Mostrar opciones adicionales si el usuario está autenticado
                 echo '<a href="logout.php">Logout</a>';
-                echo '<a href="perfil.php">Perfil</a>';  // Puedes enlazar a una página de perfil aquí
+                echo '<a href="perfil.php">Perfil</a>';
             } else {
                 echo '<a href="registro_login.php">Registro/Login</a>';
             }
@@ -40,9 +48,7 @@ session_start();
         </section>
 
         <!-- Mapa -->
-        <div class="map">
-            <!-- Integra aquí tu mapa, puedes usar servicios como Google Maps -->
-        </div>
+        <div class="map" id="leaflet-map"></div>
 
         <!-- Sección de Novedades -->
         <section class="special-section">
@@ -59,9 +65,33 @@ session_start();
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Tienda de Piercing. Todos los derechos reservados.</p>
+            <p>&copy; 2024 Kai piercing. Todos los derechos reservados.</p>
         </div>
     </footer>
+
+    <script>
+        // Función para inicializar el mapa
+        function initMap() {
+            // Coordenadas de ejemplo (puedes cambiarlas según tu ubicación)
+            var myLatLng = [34.094103594220414, -118.34434531553923];
+
+            // Crear un nuevo mapa en el contenedor especificado
+            var map = L.map('leaflet-map').setView(myLatLng, 14);
+
+            // Usar un proveedor de mapas (OpenStreetMap en este caso)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Crear un marcador en la ubicación especificada
+            L.marker(myLatLng).addTo(map)
+                .bindPopup('Kai piercing<br>Los Angeles, CA 90012<br>Estados Unidos')
+                .openPopup();
+        }
+        
+        // Llama a la función initMap después de cargar la página
+        document.addEventListener('DOMContentLoaded', initMap);
+    </script>
 </body>
 
 </html>
