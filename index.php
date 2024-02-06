@@ -1,6 +1,20 @@
 <?php
 include 'db.php';
 session_start();
+
+// Consulta para obtener un máximo de 4 productos añadidos (puedes ajustarla según tus necesidades)
+$sqlNovedades = "SELECT * FROM productos LIMIT 4";
+$resultNovedades = $conn->query($sqlNovedades);
+
+$novedades = [];
+
+if ($resultNovedades->num_rows > 0) {
+    while ($row = $resultNovedades->fetch_assoc()) {
+        $novedades[] = $row;
+    }
+}
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -47,20 +61,32 @@ session_start();
             <p>Descubre las últimas novedades y ofertas en piercings de alta calidad.</p>
         </section>
 
-        <!-- Mapa -->
-        <div class="map" id="leaflet-map"></div>
-
         <!-- Sección de Novedades -->
         <section class="special-section">
             <h2>Novedades</h2>
             <!-- Contenido de la sección de novedades -->
+            <?php if (!empty($novedades)) : ?>
+                <div class="product-list">
+                    <?php foreach ($novedades as $producto) : ?>
+                        <div class="product">
+                            <h3><?php echo $producto['nombre']; ?></h3>
+                            <p>Precio: <?php echo $producto['precio']; ?>€</p>
+                            <!-- Agrega más detalles según la estructura de tu base de datos -->
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else : ?>
+                <p>No hay novedades en este momento.</p>
+            <?php endif; ?>
         </section>
 
         <!-- Sección de Ofertas -->
         <section class="special-section">
             <h2>Ofertas</h2>
-            <!-- Contenido de la sección de ofertas -->
+            <p>Estamos trabajando para que tengas las mejores ofertas posibles 😊</p>
         </section>
+        <!-- Mapa -->
+        <div class="map" id="leaflet-map"></div>
     </div>
 
     <footer>
@@ -76,20 +102,20 @@ session_start();
             var myLatLng = [34.094103594220414, -118.34434531553923];
 
             // Crear un nuevo mapa en el contenedor especificado
-            var map = L.map('leaflet-map').setView(myLatLng, 14);
+            var map = L.map('leaflet-map').setView(myLatLng, 15);
 
-            // Usar un proveedor de mapas (OpenStreetMap en este caso)
+            // proveedor de mapas OpenStreetMap
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
-            // Crear un marcador en la ubicación especificada
+            // crear marcador
             L.marker(myLatLng).addTo(map)
                 .bindPopup('Kai piercing<br>Los Angeles, CA 90012<br>Estados Unidos')
                 .openPopup();
         }
-        
-        // Llama a la función initMap después de cargar la página
+
+        // llama a la función initMap después de cargar la página
         document.addEventListener('DOMContentLoaded', initMap);
     </script>
 </body>
