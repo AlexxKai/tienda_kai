@@ -57,6 +57,18 @@ if (isset($_POST['finalizar'])) {
     $insertarPedidoSQL = "INSERT INTO pedidos (ID_usuario) VALUES ($userID)";
     $conn->query($insertarPedidoSQL);
 
+    // Obtener el ID del pedido recién insertado
+    $pedidoID = $conn->insert_id;
+
+    // Guardar detalles del pedido en la tabla detalles_pedido
+    foreach ($productosEnCarrito as $producto) {
+        $productoID = $producto['ID_producto'];
+        $cantidad = $producto['cantidad'];
+
+        $insertarDetallesSQL = "INSERT INTO detalles_pedido (ID_pedido, ID_producto, cantidad) VALUES ($pedidoID, $productoID, $cantidad)";
+        $conn->query($insertarDetallesSQL);
+    }
+
     // Vaciar el carrito de compras
     $vaciarCarritoSQL = "DELETE FROM carrito_compras WHERE ID_usuario = $userID";
     $conn->query($vaciarCarritoSQL);
@@ -65,6 +77,9 @@ if (isset($_POST['finalizar'])) {
     header("Location: confirmacion.php");
     exit();
 }
+
+// Cerrar la conexión a la base de datos
+$conn->close();
 ?>
 
 <!DOCTYPE html>

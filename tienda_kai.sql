@@ -73,15 +73,6 @@ CREATE TABLE carrito_compras (
     FOREIGN KEY (ID_producto) REFERENCES productos(ID_producto)
 );
 
--- Crear la tabla de favoritos
-CREATE TABLE favoritos (
-    ID_usuario INT,
-    ID_producto INT,
-    PRIMARY KEY (ID_usuario, ID_producto),
-    FOREIGN KEY (ID_usuario) REFERENCES usuarios(ID_usuario),
-    FOREIGN KEY (ID_producto) REFERENCES productos(ID_producto)
-);
-
 -- Crear la tabla de notificaciones
 CREATE TABLE notificaciones (
     ID_notificacion INT PRIMARY KEY AUTO_INCREMENT,
