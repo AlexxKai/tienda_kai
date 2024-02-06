@@ -21,96 +21,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['notificar_cambios'])) 
 
 // Lógica para gestionar el catálogo (añadir, eliminar, modificar y consultar)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Añadir producto al catálogo
-    if (isset($_POST['añadir_producto'])) {
-        $nombre_producto = isset($_POST['nombre_producto']) ? $_POST['nombre_producto'] : "";
-        $cantidad_producto = isset($_POST['cantidad_producto']) ? $_POST['cantidad_producto'] : "";
-        $fabricante_producto = isset($_POST['fabricante_producto']) ? $_POST['fabricante_producto'] : "";
-
-        // Verificar si los campos numéricos no están vacíos
-        if ($nombre_producto != "" && $cantidad_producto != "" && $fabricante_producto != "") {
-            // Insertar nuevo producto en la base de datos
-            $sql = "INSERT INTO productos (cantidad, nombre, fabricante) VALUES ('$cantidad_producto', '$nombre_producto', '$fabricante_producto')";
-
-            if ($conn->query($sql) === TRUE) {
-                // Éxito al añadir el producto
-                mostrarAlerta("Añadir Producto", "Producto añadido exitosamente.");
-            } else {
-                // Error al añadir el producto
-                mostrarAlerta("Añadir Producto", "Error al añadir el producto: " . $conn->error);
-            }
-        } else {
-            mostrarAlerta("Añadir Producto", "Por favor, completa todos los campos antes de añadir el producto.");
-        }
-    }
-
-    // Eliminar producto del catálogo
-    if (isset($_POST['eliminar_producto'])) {
-        $id_producto_eliminar = isset($_POST['id_producto_eliminar']) ? $_POST['id_producto_eliminar'] : "";
-
-        // Verificar si el campo numérico no está vacío
-        if ($id_producto_eliminar != "") {
-            // Eliminar producto de la base de datos
-            $sql = "DELETE FROM productos WHERE ID_producto='$id_producto_eliminar'";
-
-            if ($conn->query($sql) === TRUE) {
-                // Éxito al eliminar el producto
-                mostrarAlerta("Eliminar Producto", "Producto eliminado exitosamente.");
-            } else {
-                // Error al eliminar el producto
-                mostrarAlerta("Eliminar Producto", "Error al eliminar el producto: " . $conn->error);
-            }
-        } else {
-            mostrarAlerta("Eliminar Producto", "Por favor, ingresa el ID del producto antes de intentar eliminarlo.");
-        }
-    }
-
-    // Modificar producto en el catálogo
-    if (isset($_POST['modificar_producto'])) {
-        $id_producto_modificar = isset($_POST['id_producto_modificar']) ? $_POST['id_producto_modificar'] : "";
-        $nuevo_nombre_producto = isset($_POST['nuevo_nombre_producto']) ? $_POST['nuevo_nombre_producto'] : "";
-        $nueva_cantidad_producto = isset($_POST['nueva_cantidad_producto']) ? $_POST['nueva_cantidad_producto'] : "";
-        $nuevo_fabricante_producto = isset($_POST['nuevo_fabricante_producto']) ? $_POST['nuevo_fabricante_producto'] : "";
-
-        // Verificar si los campos numéricos no están vacíos
-        if ($id_producto_modificar != "") {
-            // Modificar producto en la base de datos
-            $sql = "UPDATE productos SET nombre='$nuevo_nombre_producto', cantidad='$nueva_cantidad_producto', fabricante='$nuevo_fabricante_producto' WHERE ID_producto='$id_producto_modificar'";
-
-            if ($conn->query($sql) === TRUE) {
-                // Éxito al modificar el producto
-                mostrarAlerta("Modificar Producto", "Producto modificado exitosamente.");
-            } else {
-                // Error al modificar el producto
-                mostrarAlerta("Modificar Producto", "Error al modificar el producto: " . $conn->error);
-            }
-        } else {
-            mostrarAlerta("Modificar Producto", "Por favor, ingresa el ID del producto antes de intentar modificarlo.");
-        }
-    }
-
-    // Consultar productos en el catálogo
-    if (isset($_POST['consultar_productos'])) {
-        // Consultar productos en la base de datos
-        $sql = "SELECT * FROM productos";
-        $result = $conn->query($sql);
-
-        $productosEnCarrito = [];
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $productosEnCarrito[] = $row;
-            }
-        }
-    } else {
-    }
+    // ... (Código anterior para gestionar el catálogo)
 }
-
 
 // Lógica para consultar pedidos realizados
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['consultar_pedidos'])) {
-    // Aquí debes implementar la lógica para consultar pedidos realizados
-    // Puedes hacer consultas a la base de datos y mostrar los resultados
-    mostrarAlerta("Consultar Pedidos", "Aquí deberías mostrar la información de los pedidos realizados.");
+    // Consultar pedidos en la base de datos
+    $sql_pedidos = "SELECT * FROM pedidos";
+    $result_pedidos = $conn->query($sql_pedidos);
+
+    $pedidosRealizados = [];
+    if ($result_pedidos->num_rows > 0) {
+        while ($row_pedido = $result_pedidos->fetch_assoc()) {
+            $id_pedido = $row_pedido['ID_pedido'];
+            $id_usuario_pedido = $row_pedido['ID_usuario'];
+            
+            // Consultar detalles del pedido para cada pedido
+            $sql_detalles = "SELECT productos.nombre, productos.precio, detalles_pedido.cantidad
+                FROM detalles_pedido
+                INNER JOIN productos ON detalles_pedido.ID_producto = productos.ID_producto
+                WHERE detalles_pedido.ID_pedido = $id_pedido";
+
+            $result_detalles = $conn->query($sql_detalles);
+
+            $detallesPedido = [];
+            if ($result_detalles->num_rows > 0) {
+                while ($row_detalle = $result_detalles->fetch_assoc()) {
+                    $detallesPedido[] = $row_detalle;
+                }
+            }
+
+            // Agregar información del pedido y detalles al arreglo
+            $pedidoActual = [
+                'ID_pedido' => $id_pedido,
+                'ID_usuario' => $id_usuario_pedido,
+                'detalles' => $detallesPedido,
+            ];
+
+            $pedidosRealizados[] = $pedidoActual;
+        }
+    }
 }
 
 // Función para mostrar una alerta en JavaScript
@@ -157,13 +107,33 @@ function mostrarAlerta($titulo, $mensaje)
             <form method="post">
                 <button type="submit" name="consultar_pedidos">Consultar Pedidos</button>
             </form>
+
             <!-- Contenido del área de consultas de pedidos -->
+            <?php if (!empty($pedidosRealizados)) : ?>
+                <h3>Pedidos Realizados:</h3>
+                <ul>
+                    <?php foreach ($pedidosRealizados as $pedido) : ?>
+                        <li>
+                            <strong>ID Pedido:</strong> <?php echo $pedido['ID_pedido']; ?><br>
+                            <strong>ID Usuario:</strong> <?php echo $pedido['ID_usuario']; ?><br>
+                            <strong>Detalles del Pedido:</strong>
+                            <ul>
+                                <?php foreach ($pedido['detalles'] as $detalle) : ?>
+                                    <li><?php echo "{$detalle['nombre']} - {$detalle['cantidad']} unidades"; ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php else : ?>
+                <p>No hay pedidos realizados.</p>
+            <?php endif; ?>
         </section>
     </div>
 
     <footer>
         <div class="container">
-        <p>&copy; 2024 Kai piercing. Todos los derechos reservados.</p>
+            <p>&copy; 2024 Kai piercing. Todos los derechos reservados.</p>
         </div>
     </footer>
 </body>

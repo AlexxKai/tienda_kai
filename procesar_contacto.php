@@ -20,10 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Guardar los mensajes en la base de datos
-    $sql = "INSERT INTO mensajes_contacto (nombre, email, mensaje) VALUES ('$nombre', '$email', '$mensaje')";
+    $sql = "INSERT INTO notificaciones (nombre, email, mensaje) VALUES ('$nombre', '$email', '$mensaje')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "Mensaje enviado correctamente.";
+        echo '<script>alert("Notificación guardada correctamente."); setTimeout(function(){ window.location.href = "contacto.php"; }, 5);</script>';
     } else {
         echo "Error al enviar el mensaje: " . $conn->error;
     }

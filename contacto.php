@@ -10,6 +10,15 @@ session_start();
     <meta charset="UTF-8">
     <title>Contacto</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Leaflet CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet"></script>
+    <style>
+        .map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -22,7 +31,7 @@ session_start();
             if (isset($_SESSION['ID_usuario'])) {
                 // Mostrar opciones adicionales si el usuario está autenticado
                 echo '<a href="logout.php">Logout</a>';
-                echo '<a href="perfil.php">Perfil</a>';  // Puedes enlazar a una página de perfil aquí
+                echo '<a href="perfil.php">Perfil</a>';
             } else {
                 echo '<a href="registro_login.php">Registro/Login</a>';
             }
@@ -54,17 +63,20 @@ session_start();
 
         <section>
             <h2>Información de Contacto</h2>
-            <p>Dirección: Calle de la Tienda, Ciudad</p>
+            <p>Dirección: CA 90012, Los Angeles</p>
             <p>Teléfono: 123-456-789</p>
-            <p>Email: info@tiendapiercing.com</p>
+            <p>Email: info@tiendakai.com</p>
         </section>
+        <div class="map" id="leaflet-map"></div>
     </div>
 
     <footer>
         <div class="container">
-        <p>&copy; 2024 Kai piercing. Todos los derechos reservados.</p>
+            <p>&copy; 2024 Kai piercing. Todos los derechos reservados.</p>
         </div>
     </footer>
+    <script src="./mapa.js"></script>
+
 </body>
 
 </html>

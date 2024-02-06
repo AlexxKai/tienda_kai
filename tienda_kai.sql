@@ -78,6 +78,9 @@ CREATE TABLE notificaciones (
     ID_notificacion INT PRIMARY KEY AUTO_INCREMENT,
     ID_usuario INT,
     nuevo_correo VARCHAR(100),
+    nombre varchar(100),
+    email varchar(100),
+    mensaje varchar(100),
     estado ENUM('no leída', 'leída', 'gestionada') DEFAULT 'no leída',
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

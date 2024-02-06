@@ -24,11 +24,11 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Tienda de Piercing</title>
     <link rel="stylesheet" href="./styles.css">
-    <!-- Agrega el enlace a Leaflet desde CDN -->
+    <!-- Leaflet CDN-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet"></script>
     <style>
-        /* Estilo básico para el contenedor del mapa */
+        /* contenedor del mapa */
         .map {
             height: 400px;
             width: 100%;
@@ -57,21 +57,20 @@ $conn->close();
 
     <div class="container">
         <section class="welcome-section">
-            <h1>Bienvenido a nuestra Tienda de Piercing</h1>
+            <h1>Kai piercing</h1>
+            <h2>Bienvenido a nuestra tienda de piercing</h2>
             <p>Descubre las últimas novedades y ofertas en piercings de alta calidad.</p>
         </section>
 
-        <!-- Sección de Novedades -->
+        <!-- productos -->
         <section class="special-section">
-            <h2>Novedades</h2>
-            <!-- Contenido de la sección de novedades -->
+            <h2>Nuestros productos</h2>
             <?php if (!empty($novedades)) : ?>
                 <div class="product-list">
                     <?php foreach ($novedades as $producto) : ?>
                         <div class="product">
                             <h3><?php echo $producto['nombre']; ?></h3>
                             <p>Precio: <?php echo $producto['precio']; ?>€</p>
-                            <!-- Agrega más detalles según la estructura de tu base de datos -->
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -80,12 +79,13 @@ $conn->close();
             <?php endif; ?>
         </section>
 
-        <!-- Sección de Ofertas -->
+        <!-- ofertas -->
         <section class="special-section">
             <h2>Ofertas</h2>
             <p>Estamos trabajando para que tengas las mejores ofertas posibles 😊</p>
         </section>
         <!-- Mapa -->
+        <h2>Aquí puedes encontrarnos</h2>
         <div class="map" id="leaflet-map"></div>
     </div>
 
@@ -95,29 +95,7 @@ $conn->close();
         </div>
     </footer>
 
-    <script>
-        // Función para inicializar el mapa
-        function initMap() {
-            // Coordenadas de ejemplo (puedes cambiarlas según tu ubicación)
-            var myLatLng = [34.094103594220414, -118.34434531553923];
-
-            // Crear un nuevo mapa en el contenedor especificado
-            var map = L.map('leaflet-map').setView(myLatLng, 15);
-
-            // proveedor de mapas OpenStreetMap
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-
-            // crear marcador
-            L.marker(myLatLng).addTo(map)
-                .bindPopup('Kai piercing<br>Los Angeles, CA 90012<br>Estados Unidos')
-                .openPopup();
-        }
-
-        // llama a la función initMap después de cargar la página
-        document.addEventListener('DOMContentLoaded', initMap);
-    </script>
+    <script src="./mapa.js"></script>
 </body>
 
 </html>
